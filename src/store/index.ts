@@ -1,37 +1,31 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 
-export interface ITodosList {
-  id: string;
-  title: string;
-  todos: ITodo[];
+export interface IDay {
+  fullDate: string;
+  day: string;
+  month: string;
+  year: string;
+  isWeekend: boolean;
 }
 
-export interface ITodo {
-  id: string,
-  title: string,
-  isDone: boolean,
-}
-
-const currentTodos: ITodosList = {
-  id: '',
-  title: '',
-  todos: [],
-};
-
-const myTodosList: ITodosList[] = [];
+const currentMonth: IDay[] = [];
 
 const AppStore = createSlice({
   name: 'AppStore',
 
   initialState: {
-    currentTodos,
-    myTodosList,
+    currentMonth,
   },
 
-  reducers: {},
+  reducers: {
+    setCurrentMonth(state, action: { payload: IDay[] }) {
+      state.currentMonth = action.payload;
+    },
+  },
 });
 
 export const {
+  setCurrentMonth,
 } = AppStore.actions;
 
 const store = configureStore({
