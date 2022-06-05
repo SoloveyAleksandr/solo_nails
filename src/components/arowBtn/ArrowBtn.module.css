@@ -1,0 +1,10 @@
+.button {
+  background-color: transparent;
+  border: 15px solid transparent;
+  border-right-color: rgb(255, 255, 255);
+}
+
+.button.right {
+  border-right-color: transparent;
+  border-left-color: rgb(255, 255, 255);
+}

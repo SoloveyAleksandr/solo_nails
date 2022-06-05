@@ -6,41 +6,73 @@ export interface IDayItem {
   month: string,
   year: string,
   isWeekend: boolean,
+  isPrevMonth: boolean,
+  isNextMonth: boolean,
+  isToday: boolean,
 }
 
-export interface IDay {
-  isOpen: boolean,
-  date: string,
-}
-
-const currentMonth: IDayItem[] = [];
-const currentDay: IDay = {
-  isOpen: false,
-  date: '',
-}
+const selectedMonth: IDayItem[] = [];
+const month: number = 1;
+const year: number = 2022;
 
 const AppStore = createSlice({
   name: 'AppStore',
 
   initialState: {
-    currentMonth,
-    currentDay,
+    selectedMonth,
+    month,
+    year,
   },
 
   reducers: {
-    setCurrentMonth(state, action: { payload: IDayItem[] }) {
-      state.currentMonth = action.payload;
+    setSelectedMonth(state, action: { payload: IDayItem[] }) {
+      state.selectedMonth = action.payload;
     },
 
-    setCurrentDay(state, action: { payload: IDay }) {
-      state.currentDay = action.payload;
-    }
+    setMonth(state, action: { payload: number }) {
+      state.month = action.payload;
+    },
+
+    setYear(state, action: { payload: number }) {
+      state.year = action.payload;
+    },
+
+    setNextMonth(state) {
+      if (state.month < 12) {
+        state.month = state.month + 1;
+      } else {
+        state.month = 1;
+        state.year = state.year + 1;
+      }
+    },
+
+    setPrevMonth(state) {
+      if (state.month > 1) {
+        state.month = state.month - 1;
+      } else {
+        state.month = 12;
+        state.year = state.year - 1;
+      }
+    },
+
+    setNextYear(state) {
+      state.year = state.year + 1;
+    },
+
+    setPrevYear(state) {
+      state.year = state.year - 1;
+    },
   },
 });
 
 export const {
-  setCurrentMonth,
-  setCurrentDay,
+  setSelectedMonth,
+  setMonth,
+  setYear,
+  setNextMonth,
+  setPrevMonth,
+  setNextYear,
+  setPrevYear,
 } = AppStore.actions;
 
 const store = configureStore({
