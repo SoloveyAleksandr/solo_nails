@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { NavLink } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
 import CalendarDay from "../CalendarDay/CalendarDay";
 
@@ -33,13 +34,22 @@ const CalendarGrid: FC<ICalendarGrid> = ({
     <div className={styles.calendarGrid}>
       {
         appState.selectedMonth.map(day =>
-          <div key={day.fullDate}>
-            <CalendarDay
-              day={day}
-              selectDay={selectDay}
-              prevMonth={prevMonth}
-              nextMonth={nextMonth} />
-          </div>
+          !(day.isPrevMonth || day.isNextMonth) ?
+            <NavLink to={'/day'} key={day.fullDate}>
+              <CalendarDay
+                day={day}
+                selectDay={selectDay}
+                prevMonth={prevMonth}
+                nextMonth={nextMonth} />
+            </NavLink>
+            :
+            <div key={day.fullDate}>
+              <CalendarDay
+                day={day}
+                selectDay={selectDay}
+                prevMonth={prevMonth}
+                nextMonth={nextMonth} />
+            </div>
         )
       }
     </div>

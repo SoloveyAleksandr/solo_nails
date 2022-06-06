@@ -11,9 +11,30 @@ export interface IDayItem {
   isToday: boolean,
 }
 
+export interface IDay {
+  fullDate: string,
+  day: string,
+  month: string,
+  workList: IWorkItem[],
+}
+
+export interface IWorkItem {
+  date: string,
+  client: string,
+  phone: string,
+  comment: string,
+}
+
 const selectedMonth: IDayItem[] = [];
 const month: number = 1;
 const year: number = 2022;
+const selectedDate: string = '';
+const selectedDay: IDay = {
+  fullDate: '',
+  day: '',
+  month: '',
+  workList: [],
+};
 
 const AppStore = createSlice({
   name: 'AppStore',
@@ -22,6 +43,8 @@ const AppStore = createSlice({
     selectedMonth,
     month,
     year,
+    selectedDay,
+    selectedDate,
   },
 
   reducers: {
@@ -55,13 +78,14 @@ const AppStore = createSlice({
       }
     },
 
-    setNextYear(state) {
-      state.year = state.year + 1;
+    setSelectedDay(state, action: { payload: IDay }) {
+      state.selectedDay = action.payload;
     },
 
-    setPrevYear(state) {
-      state.year = state.year - 1;
+    setSelectedDate(state, action: { payload: string }) {
+      state.selectedDate = action.payload;
     },
+
   },
 });
 
@@ -71,8 +95,8 @@ export const {
   setYear,
   setNextMonth,
   setPrevMonth,
-  setNextYear,
-  setPrevYear,
+  setSelectedDay,
+  setSelectedDate,
 } = AppStore.actions;
 
 const store = configureStore({

@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  text-decoration: none;
 }
 
 .App {
@@ -10,4 +11,5 @@
   background-repeat: no-repeat;
   background-position: 0 0;
   background-size: cover;
+  background-attachment: fixed;
 }

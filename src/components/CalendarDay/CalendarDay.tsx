@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { NavLink } from "react-router-dom";
 import { IDayItem } from "../../store";
 
 import styles from './CalendarDay.module.css';
@@ -17,7 +18,7 @@ const CalendarDay: FC<ICalendarDay> = ({
   nextMonth,
 }) => {
   return (
-    <div key={day.fullDate}
+    <div
       onClick={() => {
         if (day.isPrevMonth) {
           prevMonth();
@@ -39,7 +40,7 @@ const CalendarDay: FC<ICalendarDay> = ({
         {day.day}
       </span>
       {day.isToday && <span className={styles.marker}></span>}
-    </div >
+    </div>
   );
 };
 
