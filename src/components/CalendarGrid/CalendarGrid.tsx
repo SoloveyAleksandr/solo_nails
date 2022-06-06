@@ -1,16 +1,17 @@
 import React, { FC } from "react";
 import { useAppSelector } from "../../store/hooks";
+import CalendarDay from "../CalendarDay/CalendarDay";
 
 import styles from "./CalendarGrid.module.css";
 
 interface ICalendarGrid {
-  handleClick(day: string): {},
+  selectDay(day: string): {},
   prevMonth(): void,
   nextMonth(): void,
 };
 
 const CalendarGrid: FC<ICalendarGrid> = ({
-  handleClick,
+  selectDay,
   prevMonth,
   nextMonth,
 }) => {
@@ -30,36 +31,14 @@ const CalendarGrid: FC<ICalendarGrid> = ({
   }
   return (
     <div className={styles.calendarGrid}>
-      <div className={`${styles.calendarGridCell} ${styles.weekDay}`}>ПН</div>
-      <div className={`${styles.calendarGridCell} ${styles.weekDay}`}>ВТ</div>
-      <div className={`${styles.calendarGridCell} ${styles.weekDay}`}>СР</div>
-      <div className={`${styles.calendarGridCell} ${styles.weekDay}`}>ЧТ</div>
-      <div className={`${styles.calendarGridCell} ${styles.weekDay}`}>ПТ</div>
-      <div className={`${styles.calendarGridCell} ${styles.weekDay}`}>СБ</div>
-      <div className={`${styles.calendarGridCell} ${styles.weekDay}`}>ВС</div>
       {
         appState.selectedMonth.map(day =>
-          <div key={day.fullDate}
-            onClick={() => {
-              if (day.isPrevMonth) {
-                prevMonth();
-                return;
-              } else if (day.isNextMonth) {
-                nextMonth();
-                return;
-              } else {
-                handleClick(day.fullDate);
-                return;
-              }
-            }}
-            className={
-              day.isPrevMonth || day.isNextMonth ?
-                `${styles.calendarGridCell} ${styles.disabled} ${day.isWeekend ? styles.isWeekend : ''}` :
-                `${styles.calendarGridCell} ${day.isWeekend ? styles.isWeekend : ''}`
-            }>
-            <span className={`${styles.day} ${day.isToday ? styles.isToday : ''}`}>
-              {day.day}
-            </span>
+          <div key={day.fullDate}>
+            <CalendarDay
+              day={day}
+              selectDay={selectDay}
+              prevMonth={prevMonth}
+              nextMonth={nextMonth} />
           </div>
         )
       }

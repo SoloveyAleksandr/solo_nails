@@ -1,0 +1,16 @@
+.WeekDaysList {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 1;
+  border-bottom: 2px solid #6A586A;
+}
+
+.WeekDaysItem {
+  color: #6A586A;
+  padding: 7px 0 5px 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+}

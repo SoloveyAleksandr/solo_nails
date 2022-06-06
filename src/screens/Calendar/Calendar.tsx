@@ -1,6 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import ArrowBtn from '../../components/ArowBtn/ArrowBtn';
 import CalendarGrid from '../../components/CalendarGrid/CalendarGrid';
+import Header from '../../components/Header/Header';
+import LoginBtn from '../../components/LoginBtn/LoginBtn';
+import MonthSwitch from '../../components/MonthSwitch/MonthSwitch';
+import WeekDays from '../../components/WeekDays/WeekDays';
 import { setMonth, setNextMonth, setPrevMonth, setSelectedMonth, setYear } from '../../store';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
@@ -40,8 +44,20 @@ const Calendar: FC<ICalendar> = () => {
 
   return (
     <div className={styles.Calendar}>
+      <Header>
+        <LoginBtn
+          handleClick={() => console.log('LOGIN!')} />
+        <MonthSwitch
+          prevMonth={() => reduxDispatch(setPrevMonth())}
+          nextMonth={() => reduxDispatch(setNextMonth())}
+          month={appState.month}
+          year={appState.year} />
+      </Header>
+      <div className={styles.weekDaysWrapper}>
+        <WeekDays />
+      </div>
       <CalendarGrid
-        handleClick={getDay}
+        selectDay={getDay}
         prevMonth={() => reduxDispatch(setPrevMonth())}
         nextMonth={() => reduxDispatch(setNextMonth())} />
     </div>

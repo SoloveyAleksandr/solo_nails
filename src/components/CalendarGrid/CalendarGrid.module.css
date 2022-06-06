@@ -2,47 +2,6 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(6);
-  grid-gap: 2px;
-  background-color: rgb(70, 70, 70);
-}
-
-.calendarGridCell {
-  min-height: 100px;
-  background-color: rgb(46, 46, 46);
-  color: #fff;
-  padding: 0 - 5px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.calendarGridCell.isWeekend {
-  background-color: rgb(59, 59, 59);
-}
-
-.calendarGridCell.disabled {
-  filter: blur(1px) brightness(60%);
-}
-
-.weekDay {
-  height: 50px;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.day {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.day.isToday {
-  background-color: rgb(160, 18, 18);
+  grid-gap: 4px;
+  padding: 0 4px;
 }
