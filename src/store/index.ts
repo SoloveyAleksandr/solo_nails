@@ -20,6 +20,7 @@ export interface IDay {
 
 export interface IWorkItem {
   date: string,
+  time: string,
   client: string,
   phone: string,
   comment: string,
