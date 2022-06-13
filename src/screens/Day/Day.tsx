@@ -25,11 +25,30 @@ const Day: FC<IDay> = () => {
       .then(data => reduxDispatch(setSelectedDay(data)))
       .catch(err => console.log(err))
       .finally(() => setActiveSpiner(false))
-  }, [appState.selectedDay]);
+  }, []);
+
+  function getTime(): void {
+    setActiveSpiner(true);
+    fetch(`http://localhost:5000/days:${appState.selectedDate}`)
+      .then(res => res.json())
+      .then(data => reduxDispatch(setSelectedDay(data)))
+      .catch(err => console.log(err))
+      .finally(() => setActiveSpiner(false))
+  }
 
   function addTime(): void {
-    fetch(`http://localhost:5000/days:${appState.selectedDate}/add`, { method: 'POST', body: {} })
-
+    fetch(`http://localhost:5000/days:${appState.selectedDay.fullDate}/add`, {
+      method: 'POST',
+      body: JSON.stringify(new WorkTime({
+        date: appState.selectedDay.fullDate,
+        openTime: '14:00',
+      })),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .catch(e => console.log(`Client error: ${e}`))
+      .finally(() => getTime())
   }
 
   return (
@@ -43,16 +62,15 @@ const Day: FC<IDay> = () => {
         <Container>
           <div className={styles.btnWrapper}>
             <PlusBtn
-              handleClick={() => console.log('click!')} />
+              handleClick={() => addTime()} />
           </div>
 
           <ul className={styles.list}>
             {
               appState.selectedDay.workList.map(item =>
-                <li className={styles.listItem}>{item.time}</li>
+                <li className={styles.listItem}>{item.openTime}</li>
               )
             }
-
           </ul>
         </Container>
       </div>
@@ -61,24 +79,42 @@ const Day: FC<IDay> = () => {
 
 interface IWorkTime {
   date: string,
-  time: string,
-  client: string,
-  phone: string,
-  comment: string,
+  openTime: string,
+  isFree?: boolean,
 }
 
-function WorkTime(
-  date: string,
-  time: string,
-  client: string ,
-  phone: string,
-  comment: string,
-): void {
-  this.date = date;
-  this.time = time;
-  this.client = client;
-  this.phone = phone;
-  this.comment = comment;
+class WorkTime {
+  date: string;
+  openTime: string;
+  isFree?: boolean;
+  client?: {
+    name: string,
+    phone: string,
+    comment: string,
+  }
+  constructor({
+    date,
+    openTime,
+    isFree = true,
+  }: IWorkTime) {
+    this.date = date;
+    this.openTime = openTime;
+    this.isFree = isFree;
+  }
 }
+
+// function WorkTime(
+//   date: string,
+//   time: string,
+//   client?: string,
+//   phone?: string,
+//   comment?: string,
+// ) {
+//   this.date = date;
+//   this.time = time;
+//   this.client = client;
+//   this.phone = phone;
+//   this.comment = comment;
+// }
 
 export default Day;

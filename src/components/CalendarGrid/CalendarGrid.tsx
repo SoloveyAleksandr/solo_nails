@@ -17,19 +17,7 @@ const CalendarGrid: FC<ICalendarGrid> = ({
   nextMonth,
 }) => {
   const appState = useAppSelector(state => state.AppStore);
-  const obj = {
-    '01.02.2022': [
-      {
-        time: '14:00',
-        reserved: false,
-        client: {
-          name: 'Alex',
-          number: '+375291068668',
-          comment: 'Кофейку заварите',
-        }
-      }
-    ]
-  }
+  
   return (
     <div className={styles.calendarGrid}>
       {

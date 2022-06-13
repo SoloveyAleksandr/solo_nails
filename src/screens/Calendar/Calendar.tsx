@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
+import axios from 'axios';
 import CalendarGrid from '../../components/CalendarGrid/CalendarGrid';
 import Header from '../../components/Header/Header';
 import LoginBtn from '../../components/LoginBtn/LoginBtn';
@@ -21,15 +22,28 @@ const Calendar: FC<ICalendar> = () => {
   const appState = useAppSelector(state => state.AppStore);
   const [spinerIsActive, setActiveSpiner] = useState(true);
 
-  //загрузка текущего месяца
   useEffect(() => {
     setActiveSpiner(true);
-    fetch(`http://localhost:5000/:${appState.month}/:${appState.year}`)
-      .then(res => res.json())
-      .then(data => reduxDispatch(setSelectedMonth(data.calendarDays)))
+    axios.get(`http://localhost:5000/:${appState.month}/:${appState.year}`)
+      .then(resp => {
+        const data = resp.data;
+        reduxDispatch(setYear(data.year));
+        reduxDispatch(setMonth(data.month));
+      })
+      .catch(err => console.log(err))
+  }, []);
+
+  useEffect(() => {
+    console.log('request');
+    setActiveSpiner(true);
+    axios.get(`http://localhost:5000/:${appState.month}/:${appState.year}`)
+      .then(resp => {
+        const data = resp.data;
+        reduxDispatch(setSelectedMonth(data.calendarDays));
+      })
       .catch(err => console.log(err))
       .finally(() => setActiveSpiner(false))
-  }, [appState.month, appState.year]);
+  }, [appState.month]);
 
   const getDay: IGetDay = (date: string) => reduxDispatch(setSelectedDate(date));
 

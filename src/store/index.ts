@@ -20,15 +20,15 @@ export interface IDay {
 
 export interface IWorkItem {
   date: string,
-  time: string,
+  openTime: string,
   client: string,
   phone: string,
   comment: string,
 }
 
 const selectedMonth: IDayItem[] = [];
-const month: number = 1;
-const year: number = 2022;
+const month: number = 0;
+const year: number = 0;
 const selectedDate: string = '';
 const selectedDay: IDay = {
   fullDate: '',
