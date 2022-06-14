@@ -19,11 +19,14 @@ export interface IDay {
 }
 
 export interface IWorkItem {
-  date: string,
-  openTime: string,
-  client: string,
-  phone: string,
-  comment: string,
+  id: string,
+  time: string,
+  reserved: boolean,
+  client: {
+    name: string,
+    phone: string,
+    comment: string,
+  }
 }
 
 const selectedMonth: IDayItem[] = [];
@@ -36,6 +39,7 @@ const selectedDay: IDay = {
   month: '',
   workList: [],
 };
+const isAdmin: boolean = false;
 
 const AppStore = createSlice({
   name: 'AppStore',
@@ -46,6 +50,7 @@ const AppStore = createSlice({
     year,
     selectedDay,
     selectedDate,
+    isAdmin,
   },
 
   reducers: {
@@ -86,7 +91,9 @@ const AppStore = createSlice({
     setSelectedDate(state, action: { payload: string }) {
       state.selectedDate = action.payload;
     },
-
+    setIsAdmin(state, action: { payload: boolean }) {
+      state.isAdmin = action.payload;
+    },
   },
 });
 
@@ -98,6 +105,7 @@ export const {
   setPrevMonth,
   setSelectedDay,
   setSelectedDate,
+  setIsAdmin,
 } = AppStore.actions;
 
 const store = configureStore({

@@ -5,14 +5,23 @@ import Calendar from './screens/Calendar/Calendar';
 import Day from './screens/Day/Day';
 
 const AppRouter: FC = () => {
+  const appState = useAppSelector(state => state.AppStore);
+
   return (
     <Routes>
       <Route
         path='/calendar'
         element={<Calendar />} />
-      <Route
-        path={'/day'}
-        element={<Day />} />
+      {
+        appState.selectedDate ?
+          <Route
+            path={'/day'}
+            element={<Day />} />
+          :
+          <Route
+            path={'/day'}
+            element={<Navigate to='/calendar' />} />
+      }
       <Route
         path='/*'
         element={<Navigate to='/calendar' />} />

@@ -6,7 +6,7 @@ import LoginBtn from '../../components/LoginBtn/LoginBtn';
 import MonthSwitch from '../../components/MonthSwitch/MonthSwitch';
 import Spiner from '../../components/Spiner/Spiner';
 import WeekDays from '../../components/WeekDays/WeekDays';
-import { setMonth, setNextMonth, setPrevMonth, setSelectedDate, setSelectedDay, setSelectedMonth, setYear } from '../../store';
+import { setIsAdmin, setMonth, setNextMonth, setPrevMonth, setSelectedDate, setSelectedMonth, setYear } from '../../store';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
 import styles from './Calendar.module.css';
@@ -29,12 +29,13 @@ const Calendar: FC<ICalendar> = () => {
         const data = resp.data;
         reduxDispatch(setYear(data.year));
         reduxDispatch(setMonth(data.month));
+        reduxDispatch(setSelectedMonth(data.calendarDays));
       })
       .catch(err => console.log(err))
+      .finally(() => setActiveSpiner(false))
   }, []);
 
   useEffect(() => {
-    console.log('request');
     setActiveSpiner(true);
     axios.get(`http://localhost:5000/:${appState.month}/:${appState.year}`)
       .then(resp => {
@@ -52,8 +53,13 @@ const Calendar: FC<ICalendar> = () => {
       <Spiner /> :
       <div className={styles.Calendar}>
         <Header>
-          <LoginBtn
-            handleClick={() => console.log('LOGIN!')} />
+          {
+            appState.isAdmin ?
+              <div></div> :
+              <LoginBtn
+                handleClick={() => reduxDispatch(setIsAdmin(true))} />
+          }
+
           <MonthSwitch
             prevMonth={() => reduxDispatch(setPrevMonth())}
             nextMonth={() => reduxDispatch(setNextMonth())}
